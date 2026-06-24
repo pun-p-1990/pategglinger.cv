@@ -121,7 +121,7 @@
     }
     .soc:hover { color: var(--ink); }
 
-    /* ── RIGHT PANEL — Mission Control default, zoom on hover ── */
+    /* ── RIGHT PANEL — vertical sliding rail ── */
     .right {
       height: 100vh;
       overflow: hidden;
@@ -129,40 +129,30 @@
       background: #f0ede8;
     }
 
-    /* Container for all scattered phones */
-    .mc-stage {
-      position: absolute;
-      inset: 0;
-    }
-
-    /* Each phone card — absolutely positioned, scattered */
-    .mc-card {
-      position: absolute;
-      transition: all 0.55s cubic-bezier(0.4, 0, 0.2, 1);
-      cursor: default;
-      transform-origin: center center;
-    }
-
-    .mc-card svg,
-    .mc-card img {
-      display: block;
+    .rail {
+      display: flex;
+      flex-direction: column;
       width: 100%;
-      border-radius: 24px;
-      box-shadow: 0 12px 48px rgba(0,0,0,0.13);
+      will-change: transform;
+      transition: transform 0.48s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     }
 
-    /* Default scattered positions — set by JS on load */
-    /* Focused state — one card fills panel, others shrink/fade */
-    .mc-stage.has-focus .mc-card {
-      opacity: 0.18;
-      filter: blur(1px);
-      pointer-events: none;
+    .rail-slide {
+      width: 100%;
+      height: 100vh;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
-    .mc-stage.has-focus .mc-card.focused {
-      opacity: 1;
-      filter: none;
-      pointer-events: auto;
-      z-index: 10;
+    .rail-slide:nth-child(1) { background: #f0ede8; }
+    .rail-slide:nth-child(2) { background: #eaecf0; }
+    .rail-slide:nth-child(3) { background: #edf2ed; }
+    .rail-slide:nth-child(4) { background: #f0ece8; }
+    @media (max-width: 768px) {
+      .split { grid-template-columns: 1fr; }
+      .right { display: none; }
+      .left  { height: auto; min-height: 100vh; overflow-y: auto; }
     }
   </style>
 </head>
@@ -193,34 +183,34 @@
         <div class="wi-logo">
           <span class="wi-logo-initial">HB</span>
         </div>
+        <span class="wi-date">2025</span>
+        <span class="wi-company">Healthy Benefits+</span>
+        <span class="wi-role">HSA</span>
+      </div>
+
+      <div class="wi" data-dev="2" onmouseenter="setDev(2)" onmouseleave="setDev(0)">
+        <div class="wi-logo">
+          <span class="wi-logo-initial">HB</span>
+        </div>
         <span class="wi-date">2023 — 2025</span>
         <span class="wi-company">Healthy Benefits+</span>
         <span class="wi-role">Core App</span>
       </div>
 
-      <div class="wi" data-dev="2" onmouseenter="setDev(2)" onmouseleave="setDev(0)">
+      <div class="wi" data-dev="3" onmouseenter="setDev(3)" onmouseleave="setDev(0)">
         <div class="wi-logo">
           <img src="https://www.google.com/s2/favicons?domain=expedia.com&sz=64" alt="Expedia">
         </div>
         <span class="wi-date">2022</span>
         <span class="wi-company">Expedia</span>
-        <span class="wi-role">One Key Rewards</span>
-      </div>
-
-      <div class="wi" data-dev="3" onmouseenter="setDev(3)" onmouseleave="setDev(0)">
-        <div class="wi-logo">
-          <img src="https://www.google.com/s2/favicons?domain=petco.com&sz=64" alt="Petco">
-        </div>
-        <span class="wi-date">2021</span>
-        <span class="wi-company">Petco</span>
-        <span class="wi-role">Vet Booking Experience</span>
+        <span class="wi-role">Rewards Activity</span>
       </div>
 
       <div class="wi" data-dev="4" onmouseenter="setDev(4)" onmouseleave="setDev(0)">
         <div class="wi-logo">
           <span class="wi-logo-initial">MV</span>
         </div>
-        <span class="wi-date">2019 — 2020</span>
+        <span class="wi-date">2020</span>
         <span class="wi-company">Mars Voyager</span>
         <span class="wi-role">Bulk Scheduling Tools</span>
       </div>
@@ -249,12 +239,34 @@
 
   </div>
 
-  <!-- RIGHT — Mission Control scattered phones -->
+  <!-- RIGHT — vertical slide rail, one image at a time -->
   <div class="right" id="right-panel">
-    <div class="mc-stage" id="mc-stage">
+    <div class="rail" id="rail">
 
-      <div class="mc-card" id="mc1" data-n="1">
-        <svg viewBox="0 0 220 460" xmlns="http://www.w3.org/2000/svg">
+      <div class="rail-slide" id="rs1">
+        <svg viewBox="0 0 220 460" xmlns="http://www.w3.org/2000/svg" style="width:52%;max-width:280px;display:block;border-radius:24px;box-shadow:0 16px 56px rgba(0,0,0,0.14);">
+          <rect x="6" y="6" width="208" height="448" rx="36" fill="#d8d4cc"/>
+          <rect x="14" y="18" width="192" height="424" rx="28" fill="#eeeae4"/>
+          <rect x="22" y="30" width="176" height="400" rx="20" fill="#E4DED4"/>
+          <rect x="84" y="18" width="52" height="14" rx="7" fill="#bbb"/>
+          <rect x="38" y="58" width="144" height="18" rx="6" fill="rgba(0,0,0,.10)"/>
+          <rect x="38" y="90" width="60" height="60" rx="8" fill="rgba(0,0,0,.08)"/>
+          <rect x="106" y="90" width="76" height="60" rx="8" fill="rgba(0,0,0,.07)"/>
+          <rect x="38" y="162" width="60" height="60" rx="8" fill="rgba(0,0,0,.07)"/>
+          <rect x="106" y="162" width="76" height="60" rx="8" fill="rgba(0,0,0,.06)"/>
+          <rect x="38" y="238" width="144" height="14" rx="5" fill="rgba(0,0,0,.09)"/>
+          <rect x="38" y="262" width="144" height="48" rx="24" fill="rgba(0,0,0,.09)"/>
+          <rect x="38" y="322" width="144" height="11" rx="4" fill="rgba(0,0,0,.06)"/>
+          <rect x="38" y="342" width="104" height="11" rx="4" fill="rgba(0,0,0,.05)"/>
+          <rect x="70" y="420" width="80" height="22" rx="11" fill="rgba(0,0,0,.07)"/>
+        </svg>
+      </div>
+
+      <div class="rail-slide" id="rs2">
+        <!--
+          Replace SVG with: <img src="images/hb.png" style="width:52%;max-width:280px;display:block;border-radius:24px;box-shadow:0 16px 56px rgba(0,0,0,0.14);">
+        -->
+        <svg viewBox="0 0 220 460" xmlns="http://www.w3.org/2000/svg" style="width:52%;max-width:280px;display:block;border-radius:24px;box-shadow:0 16px 56px rgba(0,0,0,0.14);">
           <rect x="6" y="6" width="208" height="448" rx="36" fill="#ddd"/>
           <rect x="14" y="18" width="192" height="424" rx="28" fill="#f2f2f2"/>
           <rect x="22" y="30" width="176" height="400" rx="20" fill="#E8E3DC"/>
@@ -270,8 +282,8 @@
         </svg>
       </div>
 
-      <div class="mc-card" id="mc2" data-n="2">
-        <svg viewBox="0 0 220 460" xmlns="http://www.w3.org/2000/svg">
+      <div class="rail-slide" id="rs3">
+        <svg viewBox="0 0 220 460" xmlns="http://www.w3.org/2000/svg" style="width:52%;max-width:280px;display:block;border-radius:24px;box-shadow:0 16px 56px rgba(0,0,0,0.14);">
           <rect x="6" y="6" width="208" height="448" rx="36" fill="#d8d8d8"/>
           <rect x="14" y="18" width="192" height="424" rx="28" fill="#eeeeee"/>
           <rect x="22" y="30" width="176" height="400" rx="20" fill="#E3E8ED"/>
@@ -287,23 +299,8 @@
         </svg>
       </div>
 
-      <div class="mc-card" id="mc3" data-n="3">
-        <svg viewBox="0 0 220 460" xmlns="http://www.w3.org/2000/svg">
-          <rect x="6" y="6" width="208" height="448" rx="36" fill="#dde0db"/>
-          <rect x="14" y="18" width="192" height="424" rx="28" fill="#eef0ee"/>
-          <rect x="22" y="30" width="176" height="400" rx="20" fill="#E4EAE4"/>
-          <rect x="84" y="18" width="52" height="14" rx="7" fill="#bbb"/>
-          <rect x="38" y="58" width="144" height="60" rx="10" fill="rgba(0,0,0,.08)"/>
-          <rect x="38" y="130" width="144" height="16" rx="6" fill="rgba(0,0,0,.09)"/>
-          <rect x="38" y="156" width="110" height="11" rx="4" fill="rgba(0,0,0,.05)"/>
-          <rect x="38" y="182" width="144" height="130" rx="10" fill="rgba(0,0,0,.07)"/>
-          <rect x="38" y="326" width="144" height="48" rx="24" fill="rgba(0,0,0,.08)"/>
-          <rect x="70" y="420" width="80" height="22" rx="11" fill="rgba(0,0,0,.07)"/>
-        </svg>
-      </div>
-
-      <div class="mc-card" id="mc4" data-n="4">
-        <svg viewBox="0 0 220 460" xmlns="http://www.w3.org/2000/svg">
+      <div class="rail-slide" id="rs4">
+        <svg viewBox="0 0 220 460" xmlns="http://www.w3.org/2000/svg" style="width:52%;max-width:280px;display:block;border-radius:24px;box-shadow:0 16px 56px rgba(0,0,0,0.14);">
           <rect x="6" y="6" width="208" height="448" rx="36" fill="#ddd8d2"/>
           <rect x="14" y="18" width="192" height="424" rx="28" fill="#eeebe6"/>
           <rect x="22" y="30" width="176" height="400" rx="20" fill="#E8E0D8"/>
@@ -321,72 +318,70 @@
     </div>
   </div>
 
-</div>
-
 <script>
-  const listEl  = document.getElementById('work-list');
-  const stage   = document.getElementById('mc-stage');
-  const cards   = Array.from(document.querySelectorAll('.mc-card'));
-  const rows    = Array.from(document.querySelectorAll('.wi'));
+  const listEl = document.getElementById('work-list');
+  const rail   = document.getElementById('rail');
+  const rows   = Array.from(document.querySelectorAll('.wi'));
+  let current  = 0;
 
-  // Scattered positions for each card [left%, top%, width%, rotate]
-  // Designed so all 4 phones overlap naturally like Mission Control windows
-  const scattered = [
-    { l: 8,  t: 8,  w: 42, r: -6  },   // card 1: top-left, slight tilt left
-    { l: 44, t: 4,  w: 38, r: 4   },   // card 2: top-right, slight tilt right
-    { l: 12, t: 46, w: 40, r: 3   },   // card 3: bottom-left, slight tilt right
-    { l: 48, t: 42, w: 36, r: -5  },   // card 4: bottom-right, slight tilt left
-  ];
+  // Sharp mechanical click using Web Audio API
+  function playTick() {
+    try {
+      const ctx  = new (window.AudioContext || window.webkitAudioContext)();
 
-  // Focused position — phone fills center of panel
-  const focused = { l: 50, t: 50, w: 44, r: 0, tx: '-50%', ty: '-50%' };
+      // White noise burst — the "click" body
+      const bufSize = ctx.sampleRate * 0.012; // 12ms
+      const buf  = ctx.createBuffer(1, bufSize, ctx.sampleRate);
+      const data = buf.getChannelData(0);
+      for (let i = 0; i < bufSize; i++) data[i] = (Math.random() * 2 - 1);
 
-  function applyScattered() {
-    cards.forEach((card, i) => {
-      const p = scattered[i];
-      card.style.left      = p.l + '%';
-      card.style.top       = p.t + '%';
-      card.style.width     = p.w + '%';
-      card.style.transform = 'rotate(' + p.r + 'deg)';
-      card.style.zIndex    = i + 1;
-    });
+      const noise = ctx.createBufferSource();
+      noise.buffer = buf;
+
+      // Bandpass filter — shape it to a click frequency
+      const bp = ctx.createBiquadFilter();
+      bp.type = 'bandpass';
+      bp.frequency.value = 3200;
+      bp.Q.value = 0.8;
+
+      // Fast attack, fast decay envelope
+      const gain = ctx.createGain();
+      gain.gain.setValueAtTime(0, ctx.currentTime);
+      gain.gain.linearRampToValueAtTime(0.55, ctx.currentTime + 0.001);
+      gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.018);
+
+      noise.connect(bp);
+      bp.connect(gain);
+      gain.connect(ctx.destination);
+      noise.start(ctx.currentTime);
+      noise.stop(ctx.currentTime + 0.02);
+    } catch(e) {}
   }
 
-  function applyFocused(n) {
-    cards.forEach((card, i) => {
-      const isActive = parseInt(card.dataset.n) === n;
-      if (isActive) {
-        card.style.left      = '50%';
-        card.style.top       = '50%';
-        card.style.width     = '44%';
-        card.style.transform = 'translate(-50%, -50%) rotate(0deg) scale(1)';
-        card.style.zIndex    = 10;
-        card.classList.add('focused');
-      } else {
-        card.classList.remove('focused');
-      }
-    });
-    stage.classList.add('has-focus');
+  function goTo(idx) {
+    const h = rail.parentElement.offsetHeight;
+    rail.style.transform = 'translateY(-' + (idx * h) + 'px)';
   }
-
-  // Init scattered
-  applyScattered();
 
   function setDev(n) {
     rows.forEach(r => r.classList.remove('wi-hov'));
 
     if (n > 0) {
-      applyFocused(n);
+      const newIdx = n - 1;
+      if (newIdx !== current) {
+        playTick();
+        current = newIdx;
+        goTo(current);
+      }
       const hovRow = document.querySelector('.wi[data-dev="' + n + '"]');
       if (hovRow) hovRow.classList.add('wi-hov');
       listEl.classList.add('list-active');
     } else {
-      stage.classList.remove('has-focus');
-      cards.forEach(c => c.classList.remove('focused'));
-      applyScattered();
       listEl.classList.remove('list-active');
     }
   }
+
+  window.addEventListener('resize', () => goTo(current));
 </script>
 </body>
 </html>
